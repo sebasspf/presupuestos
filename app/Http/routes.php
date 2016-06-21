@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/admin/presupuesto', 'PresupuestosController@addForm' );
+Route::post('/admin/presupuesto', 'PresupuestosController@store');
+
+Route::get('/api/getcliente/{email}', 'ClientesController@getJson');

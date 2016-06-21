@@ -14,7 +14,7 @@ class CreatePreciosTable extends Migration
     {
         Schema::create('precios', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_presupuesto')->unsigned()->index();
+            $table->integer('presupuesto_id')->unsigned()->index();
             $table->string('producto');
             $table->string('falla');
             $table->double('precio', 15, 8);

@@ -15,9 +15,9 @@ class CreatePresupuestosTable extends Migration
         Schema::create('presupuestos', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->text('comentario');
+            $table->text('comentario')->nullable();
             $table->string('clave');
-            $table->integer('id_cliente')->unsigned()->index();
+            $table->integer('cliente_id')->unsigned()->index();
         });
     }
 
