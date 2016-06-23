@@ -1,14 +1,17 @@
 @extends('admin.layout')
 
+
 @section('head')
 
-    <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
-    <script src="/js/addForm.js"></script>
+<script type="text/javascript" src="/js/addForm.js"></script>
 
 @endsection
 
 
 @section('content')
+
+    @include('components.header')
+
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">

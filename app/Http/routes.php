@@ -11,11 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/admin/inicio', 'PagesController@adminInicio');
 
 Route::get('/admin/presupuesto', 'PresupuestosController@addForm' );
 Route::post('/admin/presupuesto', 'PresupuestosController@store');
 
 Route::get('/api/getcliente/{email}', 'ClientesController@getJson');
+
+
+// Authentication Routes **************************************************************
+Route::get('/admin', 'Auth\AuthController@showLoginForm');
+Route::post('/admin', 'Auth\AuthController@login');
+
+Route::get('/admin/logout', 'Auth\AuthController@logout');
