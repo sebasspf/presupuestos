@@ -15,26 +15,6 @@ class PresupuestosController extends Controller
     {
         $this->middleware('auth');
     }
-    
-
-    protected function crearClave()
-    {
-        $factory = new \RandomLib\Factory;
-        $generator = $factory->getLowStrengthGenerator();
-        return $generator->generateString(10);
-    }
-
-
-    protected function claveUnica()
-    {
-        $repetido = true;
-        while($repetido)
-        {
-            $clave = $this->crearClave();
-            Presupuesto::where('clave',$clave)->first() ?: $repetido = false;
-        }
-        return $clave;
-    }
 
 
     public function addForm()
@@ -43,36 +23,55 @@ class PresupuestosController extends Controller
     }
 
 
+    public function list()
+    {
+        $presupuestos = Presupuesto::paginate(12);
+
+        return view('admin.list', [
+            'presupuestos' => $presupuestos
+        ]);
+    }
+
+
     public function store(Request $request)
     {
-        $presupuesto = new Presupuesto;
 
         if($request->cliente_id == 0){
-            $this->validar_presupuesto($request);
+            $this->validar_cliente($request);
             $cliente = Cliente::create(['nombre'=>$request->nombre, 'email'=>$request->email]);
-            $presupuesto->cliente_id = $cliente->id;
         }else{
-            $presupuesto->cliente_id = $request->cliente_id;
+            $cliente = Cliente::find($request->cliente_id);
         }
 
+        $presupuesto = new Presupuesto;
         $presupuesto->clave = $this->claveUnica();
         $presupuesto->comentario = $request->comentario;
 
-        $presupuesto->save();
+        $cliente->addPresupuesto($presupuesto);
+
         flash('success', 'El presupuesto se agrego correctamente');
         return back();
     }
 
 
-    protected function validar_presupuesto(Request $request)
+    protected function claveUnica()
+    {
+        $repetido = true;
+        while($repetido)
+        {
+            $clave = crearClave(10);
+            Presupuesto::where('clave',$clave)->first() ?: $repetido = false;
+        }
+        return $clave;
+    }
+
+
+    protected function validar_cliente(Request $request)
     {
         $this->validate($request, [
             'email' => 'email|unique:clientes',
             'nombre' => 'required'
         ]);
     }
-
-
-
 
 }

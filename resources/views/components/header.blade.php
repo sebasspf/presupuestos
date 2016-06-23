@@ -15,6 +15,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('/admin/inicio') }}">Inicio</a></li>
                 <li><a href="{{ url('/admin/presupuesto') }}">Nuevo Presupuesto</a></li>
+                <li><a href="{{ url('/admin/lista') }}">Listado</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">

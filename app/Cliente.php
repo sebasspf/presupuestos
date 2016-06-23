@@ -13,4 +13,9 @@ class Cliente extends Model
         return $this->hasMany('App\Presupuesto');
     }
 
+    public function addPresupuesto(Presupuesto $presupuesto)
+    {
+        $this->presupuestos()->save($presupuesto);
+    }
+
 }
