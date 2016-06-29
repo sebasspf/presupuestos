@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('components.header');
+    @include('components.header')
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -24,7 +24,14 @@
                             <td>{{ $pres->created_at->format('d - m - Y') }}</td>
                             <td>{{ $pres->cliente->nombre}}</td>
                             <td>{{ str_limit($pres->comentario, 55) }}</td>
-                            <td></td>
+                            <td>      
+                                <a href="/admin/presupuesto/{{$pres->id}}" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                                <a type="button" href="" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
