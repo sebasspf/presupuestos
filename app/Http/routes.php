@@ -11,12 +11,13 @@
 |
 */
 
-
 Route::get('/admin/inicio', 'PagesController@adminInicio');
 
 Route::get('/admin/presupuesto', 'PresupuestosController@addForm' );
 Route::post('/admin/presupuesto', 'PresupuestosController@store');
-Route::get('/admin/presupuesto/{presupuesto}', 'PresupuestosController@show');
+
+Route::get('/admin/presupuestos/{presupuesto}', 'PresupuestosController@show');
+Route::post('/admin/presupuestos/{presupuesto}/precio', 'PreciosController@store');
 
 Route::get('/admin/lista', 'PresupuestosController@list');
 

@@ -25,13 +25,15 @@ class PresupuestosController extends Controller
 
     public function list()
     {
-        $presupuestos = Presupuesto::paginate(12);
-
-        return view('admin.list', [
-            'presupuestos' => $presupuestos
-        ]);
+        $presupuestos = Presupuesto::with('cliente')->paginate(12);
+        return view('admin.list', ['presupuestos' => $presupuestos]);
     }
 
+    public function show(Presupuesto $presupuesto)
+    {
+        $presupuesto->load('precios');
+        return view('admin.pres', ['presupuesto' => $presupuesto]);
+    }
 
     public function store(Request $request)
     {

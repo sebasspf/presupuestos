@@ -17,10 +17,10 @@ class CreatePreciosTable extends Migration
             $table->integer('presupuesto_id')->unsigned()->index();
             $table->string('producto');
             $table->string('falla');
-            $table->double('precio', 15, 8);
-            $table->text('comentario');
+            $table->double('precio', 15, 2);
+            $table->text('comentario')->nullable();
             $table->integer('tiempo');
-            $table->boolean('aceptado');
+            $table->boolean('aceptado')->default(0);
             $table->timestamps();
         });
     }

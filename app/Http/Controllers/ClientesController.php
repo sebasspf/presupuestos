@@ -18,7 +18,8 @@ class ClientesController extends Controller
             $resultado = ['resultado'=>'falla', ];
         }
 
-        return json_encode($resultado);
+        //return json_encode($resultado);
+        return response()->json($resultado);
 
     }
 }
