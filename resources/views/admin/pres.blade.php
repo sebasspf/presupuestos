@@ -34,7 +34,10 @@
 
                 @include('components.flash')
 
-
+                <a href="/admin/presupuestos/{{$presupuesto->id}}/enviar" class="btn btn-default">
+                Enviar presupuesto
+                </a>
+                
                 <h3>Agregar precio:</h3><br>
 
                 <form class="form-horizontal" method="POST" action="/admin/presupuestos/{{$presupuesto->id}}/precio">

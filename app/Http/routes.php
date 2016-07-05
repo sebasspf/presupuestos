@@ -18,6 +18,7 @@ Route::post('/admin/presupuesto', 'PresupuestosController@store');
 
 Route::get('/admin/presupuestos/{presupuesto}', 'PresupuestosController@show');
 Route::post('/admin/presupuestos/{presupuesto}/precio', 'PreciosController@store');
+Route::get('/admin/presupuestos/{presupuesto}/enviar', 'PresupuestosController@send');
 
 Route::get('/admin/lista', 'PresupuestosController@list');
 

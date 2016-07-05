@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Mail;
 use App\Http\Requests;
 use App\Presupuesto;
 use App\Cliente;
@@ -52,6 +53,26 @@ class PresupuestosController extends Controller
         $cliente->addPresupuesto($presupuesto);
 
         flash('success', 'El presupuesto se agrego correctamente');
+        return back();
+    }
+
+    public function send(Presupuesto $presupuesto)
+    {
+        $presupuesto->load('precios');
+
+        if($presupuesto->precios->isEmpty())
+        {
+            flash('danger', 'No hay precios para enviar en el presupuesto');
+            return back();
+        }
+
+        Mail::send('emails.sendPres', ['presupuesto'=>$presupuesto], function ($m) use ($presupuesto) {
+            $m->from('info@velpres.com', 'Sistema Velpres');
+            $m->to($presupuesto->cliente->email,$presupuesto->cliente->nombre)
+                ->subject('Correo de prueba');
+        });
+
+        flash('success', 'El email se envió correctamente');
         return back();
     }
 
