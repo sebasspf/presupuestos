@@ -11,6 +11,8 @@
 |
 */
 
+// Admin Routes *************************************************************
+
 Route::get('/admin/inicio', 'PagesController@adminInicio');
 
 Route::get('/admin/presupuesto', 'PresupuestosController@addForm' );
@@ -23,6 +25,10 @@ Route::get('/admin/presupuestos/{presupuesto}/enviar', 'PresupuestosController@s
 Route::get('/admin/lista', 'PresupuestosController@list');
 
 Route::get('/api/getcliente/{email}', 'ClientesController@getJson');
+
+// General Pages Routes
+
+Route::get('/', 'PagesController@inicio');
 
 
 // Authentication Routes **************************************************************

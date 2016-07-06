@@ -22,4 +22,9 @@ class PagesController extends Controller
     {
         return view('admin.inicio');
     }
+
+    public function inicio()
+    {
+        return view('pages.index');
+    }
 }
