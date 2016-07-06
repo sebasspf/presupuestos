@@ -49,6 +49,7 @@ class PresupuestosController extends Controller
         $presupuesto = new Presupuesto;
         $presupuesto->clave = $this->claveUnica();
         $presupuesto->comentario = $request->comentario;
+        $presupuesto->estado_id = 1;
 
         $cliente->addPresupuesto($presupuesto);
 
@@ -71,6 +72,9 @@ class PresupuestosController extends Controller
             $m->to($presupuesto->cliente->email,$presupuesto->cliente->nombre)
                 ->subject('Correo de prueba');
         });
+
+        $presupuesto->estado_id = 2;
+        $presupuesto->update();
 
         flash('success', 'El email se envió correctamente');
         return back();

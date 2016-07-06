@@ -14,6 +14,7 @@
                             <th>Fecha</th>
                             <th>Cliente</th>
                             <th>Comentario</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -21,9 +22,12 @@
                     @foreach ($presupuestos as $pres)
                         <tr>
                             <th scope="row">{{ $pres->id }}</th>
-                            <td>{{ $pres->created_at->format('d - m - Y') }}</td>
+                            <td>{{ $pres->created_at->format('d-m-Y') }}</td>
                             <td>{{ $pres->cliente->nombre}}</td>
                             <td>{{ str_limit($pres->comentario, 55) }}</td>
+                            <td><span class="label" style="background-color:{{$pres->estado->color}}">
+                                    {{ ucfirst($pres->estado->descripcion)}}
+                                </span></td>
                             <td>      
                                 <a href="/admin/presupuestos/{{$pres->id}}" class="btn btn-default btn-sm">
                                     <span class="glyphicon glyphicon-pencil"></span>
