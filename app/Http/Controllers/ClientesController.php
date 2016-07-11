@@ -12,9 +12,9 @@ class ClientesController extends Controller
     public function getJson($email)
     {
         $cliente = Cliente::where('email',$email)->first();
-        if($cliente) {
+        if ($cliente) {
             $resultado = ['resultado'=>'exito','cliente'=>$cliente->toArray()];
-        }else{
+        } else {
             $resultado = ['resultado'=>'falla', ];
         }
 

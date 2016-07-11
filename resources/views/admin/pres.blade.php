@@ -16,6 +16,9 @@
                             <th>Falla</th>
                             <th>Precio</th>
                             <th>Días</th>
+                            @if($presupuesto->estado->descripcion = "nuevo")
+                                <th>Aceptado</th>
+                            @endif
                             <th></th>
                         </tr>
                     </thead>
@@ -26,7 +29,11 @@
                                 <td>{{$precio->falla}}</td>
                                 <td>$ {{$precio->precio}}</td>
                                 <td>{{$precio->tiempo}}</td>
-                                <td></td>
+                                @if($presupuesto->estado->descripcion = "nuevo")
+                                    <td><span class="label" style="background-color:
+                                    {{$precio->aceptado ? "#00AA00" : "#AA0000"}}">
+                                    {{$precio->aceptado ? "Aceptado" : "Rechazado"}}</span></td>
+                                @endif
                             </tr>
                         @endforeach    
                     </tbody>

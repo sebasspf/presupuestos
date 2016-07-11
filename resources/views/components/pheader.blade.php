@@ -14,9 +14,9 @@
             <ul class="nav navbar-nav">
                 
             </ul>
-            <form class="navbar-form navbar-right" method="GET" action="#" role="pnumber">
+            <form class="navbar-form navbar-right" method="GET" action="/presupuestos" role="pnumber">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="ID Presupuesto">
+                    <input type="text" name="clave" class="form-control" placeholder="ID Presupuesto">
                 </div>
                 <button type="submit" class="btn btn-default">Ver Presupuesto</button>
             </form>

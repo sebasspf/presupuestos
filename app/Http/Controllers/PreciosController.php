@@ -32,6 +32,24 @@ class PreciosController extends Controller
         return back();
     }
 
+    public function respond(Request $request)
+    {
+        $presupuesto = $presupuesto = Presupuesto::where('clave',$request->clave)->firstOrFail();
+
+        foreach($presupuesto->precios as $precio){
+            $precio->aceptado = (int)$request->prec[$precio->id];
+            $precio->save();
+        }
+
+        $presupuesto->estado_id = 3;
+        $presupuesto->save();
+
+        flash('success', 'Los presupuestos se aceptaron / rechazaron correctamente');
+
+        return back();
+
+    }
+
     protected function validar_precio(Request $request)
     {
         $this->validate($request, [

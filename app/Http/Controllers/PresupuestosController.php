@@ -14,7 +14,8 @@ class PresupuestosController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['showUser']
+        ]);
     }
 
 
@@ -26,7 +27,9 @@ class PresupuestosController extends Controller
 
     public function list()
     {
-        $presupuestos = Presupuesto::with('cliente')->paginate(12);
+        $presupuestos = Presupuesto::with('cliente')
+                            ->orderBy('updated_at', 'desc')
+                            ->paginate(12);
         return view('admin.list', ['presupuestos' => $presupuestos]);
     }
 
@@ -36,13 +39,34 @@ class PresupuestosController extends Controller
         return view('admin.pres', ['presupuesto' => $presupuesto]);
     }
 
+    public function showUser(Request $request)
+    {
+
+        $presupuesto = Presupuesto::where('clave',$request->clave)->firstOrFail();
+        $presupuesto->load('precios');
+
+        switch ($presupuesto->estado->descripcion) {
+            case "enviado":
+                return view('pages.pres', ['presupuesto' => $presupuesto]);
+                break;
+
+            case "pendiente":
+            case "terminado":
+                return view('pages.finalPres', ['presupuesto' => $presupuesto]);
+
+            case "nuevo":
+                return abort(404);
+        }
+
+    }
+
     public function store(Request $request)
     {
 
-        if($request->cliente_id == 0){
+        if ($request->cliente_id == 0) {
             $this->validar_cliente($request);
             $cliente = Cliente::create(['nombre'=>$request->nombre, 'email'=>$request->email]);
-        }else{
+        } else {
             $cliente = Cliente::find($request->cliente_id);
         }
 
@@ -61,8 +85,7 @@ class PresupuestosController extends Controller
     {
         $presupuesto->load('precios');
 
-        if($presupuesto->precios->isEmpty())
-        {
+        if ($presupuesto->precios->isEmpty()) {
             flash('danger', 'No hay precios para enviar en el presupuesto');
             return back();
         }
@@ -84,8 +107,7 @@ class PresupuestosController extends Controller
     protected function claveUnica()
     {
         $repetido = true;
-        while($repetido)
-        {
+        while ($repetido) {
             $clave = crearClave(10);
             Presupuesto::where('clave',$clave)->first() ?: $repetido = false;
         }
@@ -98,6 +120,13 @@ class PresupuestosController extends Controller
         $this->validate($request, [
             'email' => 'email|unique:clientes',
             'nombre' => 'required'
+        ]);
+    }
+
+    protected function validar_clave(Request $request)
+    {
+        $this->validate($request, [
+            'clave' => 'required|alpha_num|size:10'
         ]);
     }
 

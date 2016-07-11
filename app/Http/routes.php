@@ -24,12 +24,15 @@ Route::get('/admin/presupuestos/{presupuesto}/enviar', 'PresupuestosController@s
 
 Route::get('/admin/lista', 'PresupuestosController@list');
 
-Route::get('/api/getcliente/{email}', 'ClientesController@getJson');
-
-// General Pages Routes
+// General Pages Routes *******************************************************
 
 Route::get('/', 'PagesController@inicio');
+Route::get('/presupuestos', 'PresupuestosController@showUser');
+Route::post('/presupuestos', 'PreciosController@respond');
 
+// Utilities Routes ***********************************************************
+
+Route::get('/api/getcliente/{email}', 'ClientesController@getJson');
 
 // Authentication Routes **************************************************************
 Route::get('/admin', 'Auth\AuthController@showLoginForm');
