@@ -93,7 +93,7 @@ class PresupuestosController extends Controller
         Mail::send('emails.sendPres', ['presupuesto'=>$presupuesto], function ($m) use ($presupuesto) {
             $m->from('info@velpres.com', 'Sistema Velpres');
             $m->to($presupuesto->cliente->email,$presupuesto->cliente->nombre)
-                ->subject('Correo de prueba');
+                ->subject('Nuevo presupuesto de Velpres');
         });
 
         $presupuesto->estado_id = 2;

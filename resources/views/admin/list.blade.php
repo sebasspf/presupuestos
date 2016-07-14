@@ -24,7 +24,7 @@
                             <th scope="row">{{ $pres->id }}</th>
                             <td>{{ $pres->created_at->format('d-m-Y') }}</td>
                             <td>{{ $pres->cliente->nombre}}</td>
-                            <td>{{ str_limit($pres->comentario, 55) }}</td>
+                            <td>{{ str_limit($pres->comentario, 43) }}</td>
                             <td><span class="label" style="background-color:{{$pres->estado->color}}">
                                     {{ ucfirst($pres->estado->descripcion)}}
                                 </span></td>

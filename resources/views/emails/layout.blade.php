@@ -11,7 +11,7 @@
     <title>@yield('title')</title>  
 </head>
 
-<body>
+<body style="font-family: arial, sans-serif">
 
 
 @yield('content')
