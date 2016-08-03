@@ -25,6 +25,7 @@ class PreciosController extends Controller
         $precio->falla = $request->falla;
         $precio->precio = $request->precio;
         $precio->tiempo = $request->tiempo;
+        $precio->estado_id = 2;
 
         $presupuesto->addPrecio($precio);
 
@@ -37,7 +38,8 @@ class PreciosController extends Controller
         $presupuesto = $presupuesto = Presupuesto::where('clave',$request->clave)->firstOrFail();
 
         foreach($presupuesto->precios as $precio){
-            $precio->aceptado = (int)$request->prec[$precio->id];
+            // 1 Y 3 son los ID de precio aceptado y rechazado respectivamente
+            $precio->estado_id = (int)$request->prec[$precio->id] ? 1 : 3;
             $precio->save();
         }
 

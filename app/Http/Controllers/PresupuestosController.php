@@ -53,6 +53,7 @@ class PresupuestosController extends Controller
             case "pendiente":
             case "terminado":
                 return view('pages.finalPres', ['presupuesto' => $presupuesto]);
+                break;
 
             case "nuevo":
                 return abort(404);

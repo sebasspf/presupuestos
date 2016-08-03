@@ -17,7 +17,7 @@
                             <p><strong>Falla: </strong>{{$precio->falla}}</p>
                             <p><strong>Tiempo: </strong>{{$precio->tiempo}} días</p>
                             <p><strong>Precio: </strong>${{$precio->precio}}</p>
-                            <p><strong>Aceptado: {{ $precio->aceptado ? "Aceptado" : "Rechazado" }}</strong></p>
+                            <p><strong>Aceptado: {{ $precio->estadoPrecio->descripcion }}</strong></p>
                         </div>
                     </div>
                 @endforeach

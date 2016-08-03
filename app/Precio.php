@@ -12,4 +12,9 @@ class Precio extends Model
     {
         return $this->belongsTo('App\Presupuesto');
     }
+
+    public function estadoPrecio()
+    {
+        return $this->belongsTo('App\EstadoPrecio', 'estado_id');
+    }
 }
