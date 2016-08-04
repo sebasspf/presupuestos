@@ -15,6 +15,7 @@
                             <th>Precio</th>
                             <th>Días</th>
                             <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,6 +27,11 @@
                                 <td>{{$precio->tiempo}}</td>
                                 <td><span class="label" style="background-color:{{$precio->estadoPrecio->color}}">
                                     {{$precio->estadoPrecio->descripcion}}</span>
+                                </td>
+                                <td>
+                                    <a href="/admin/precios/{{$precio->id}}" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach    

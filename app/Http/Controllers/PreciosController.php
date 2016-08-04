@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Precio;
 use App\Presupuesto;
+use App\EstadoPrecio;
 
 class PreciosController extends Controller
 {
@@ -52,6 +53,27 @@ class PreciosController extends Controller
 
     }
 
+    public function show(Precio $precio)
+    {
+        $estados = EstadoPrecio::all();
+        return view('admin.precio',
+             ['precio'=>$precio, 'estados'=>$estados]
+        );
+    }
+
+    public function update(Request $request, Precio $precio)
+    {
+        $this->validate($request,[
+            'estado' => 'exists:estados_precio,id'
+        ]);
+
+        $precio->estado_id = $request->estado;
+        $precio->update();
+        flash('success', 'El precio se actualizó correctamente');
+
+        return back(); 
+    }
+
     protected function validar_precio(Request $request)
     {
         $this->validate($request, [
@@ -61,4 +83,5 @@ class PreciosController extends Controller
             'tiempo' => 'required|numeric',
         ]);
     }
+
 }

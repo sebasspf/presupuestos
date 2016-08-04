@@ -22,6 +22,9 @@ Route::get('/admin/presupuestos/{presupuesto}', 'PresupuestosController@show');
 Route::post('/admin/presupuestos/{presupuesto}/precio', 'PreciosController@store');
 Route::get('/admin/presupuestos/{presupuesto}/enviar', 'PresupuestosController@send');
 
+Route::get('/admin/precios/{precio}','PreciosController@show');
+Route::post('/admin/precios/{precio}','PreciosController@update');
+
 Route::get('/admin/lista', 'PresupuestosController@list');
 
 // General Pages Routes *******************************************************
