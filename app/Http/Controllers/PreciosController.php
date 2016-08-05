@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Event;
 
 use App\Precio;
 use App\Presupuesto;
 use App\EstadoPrecio;
+use App\Events\PrecioCambiaEstado;
 
 class PreciosController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' =>['respond']]);
     }
 
     public function store(Request $request, Presupuesto $presupuesto)
@@ -67,10 +69,16 @@ class PreciosController extends Controller
             'estado' => 'exists:estados_precio,id'
         ]);
 
+        $cambioEstado = $precio->estado_id <> $request->estado ? true : false;
+
         $precio->estado_id = $request->estado;
         $precio->update();
-        flash('success', 'El precio se actualizó correctamente');
 
+        if($cambioEstado){
+            Event::fire(new PrecioCambiaEstado($precio));
+        }
+
+        flash('success', 'El precio se actualizó correctamente.');
         return back(); 
     }
 
