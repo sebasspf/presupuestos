@@ -104,6 +104,13 @@ class PresupuestosController extends Controller
         return back();
     }
 
+    public function delete(Presupuesto $presupuesto)
+    {
+        $presupuesto->delete();
+        flash('sucess', 'El presupuesto fue eliminado');
+        return  redirect('/admin/lista');
+    }
+
 
     protected function claveUnica()
     {

@@ -27,4 +27,14 @@ class Presupuesto extends Model
     {
         $this->precios()->save($precio);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($presupuesto){
+            $presupuesto->precios()->delete();
+        });
+    }
+
 }
