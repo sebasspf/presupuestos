@@ -7,7 +7,7 @@
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <h3>Detalles del presupuesto:</h3>
+                <h4>Detalles del presupuesto:</h4>
                 <dl class="dl-horizontal">
                     <dt>Cliente:</dt>
                         <dd>{{$presupuesto->cliente->nombre}}</dd>
@@ -25,6 +25,7 @@
                 </dl>
             </div>
         </div>
+
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -59,27 +60,40 @@
                         @endforeach    
                     </tbody>
                 </table>
+                 @include('components.flash')
+                 @include('components.errors')
 
-                @include('components.flash')
-                
-                @if($presupuesto->estado->descripcion == "nuevo")
-                    @include('admin.formPrecio')
-                    @if(!$presupuesto->precios->isEmpty())
-                        <a href="/admin/presupuestos/{{$presupuesto->id}}/enviar" class="btn btn-default">
-                            Enviar presupuesto
-                        </a>
+                 @if($presupuesto->estado->descripcion == "nuevo")
+                     @include('admin.formPrecio')
+                 @endif
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                Acciones
+                <div class="row">
+                    @if(!$presupuesto->precios->isEmpty() && $presupuesto->estado->descripcion == "nuevo")
+                        <div class="col-md-2">
+                            <a href="/admin/presupuestos/{{$presupuesto->id}}/enviar" class="btn btn-primary btn-block">
+                                Enviar
+                            </a>
+                        </div>
                     @endif
-                @endif
-
-                <form name="deletepres" method="POST" action="#">
-                    {{ method_field('DELETE') }}
-                    {{ csrf_field() }}
-                    <div class="form-group">
-                        <button name="borrar" type="submit" class="btn btn-danger">Borrar</button>
+                    <div class="col-md-2">
+                        <form name="deletepres" method="POST" action="#">
+                            {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <button name="borrar" type="submit" class="btn btn-danger btn-block">Borrar</button>
+                            </div>
+                        </form>
                     </div>
-                </form>
-
-                @include('components.errors')
+                    <div class="col-md-2">
+                        <a href="#" class="btn btn-success btn-block">Finalizar</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
