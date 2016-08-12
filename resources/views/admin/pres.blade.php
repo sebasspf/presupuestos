@@ -72,7 +72,7 @@
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                Acciones
+                <h5 class="subtitulo">Acciones posibles</h5>
                 <div class="row">
                     @if(!$presupuesto->precios->isEmpty() && $presupuesto->estado->descripcion == "nuevo")
                         <div class="col-md-2">
@@ -91,7 +91,8 @@
                         </form>
                     </div>
                     <div class="col-md-2">
-                        <a href="#" class="btn btn-success btn-block">Finalizar</a>
+                        <a href="/admin/presupuestos/{{$presupuesto->id}}/switch" class="btn btn-success btn-block">
+                        {{$presupuesto->estado->descripcion == "finalizado" ? "Reabrir" : "Finalizar"}}</a>
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <h3>Detalles del arreglo:</h3>
+                <h4>Detalles del arreglo:</h4>
                 <dl class="dl-horizontal">
                     <dt>Producto</dt>
                         <dd>{{$precio->producto}}</dd>
@@ -19,7 +19,7 @@
                     <dt>Estado</dt>
                     <dd>{{$precio->estadoPrecio->descripcion}}</dd>
                 </dl>
-                <h3>Cambiar estado:</h3><br>
+                <h5 class="subtitulo">Cambiar estado</h5>
 
                 <form action="#" class="form-inline" method="POST">
 

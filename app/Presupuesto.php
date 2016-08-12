@@ -23,6 +23,11 @@ class Presupuesto extends Model
         return $this->belongsTo('App\Estado');
     }
 
+    public function estadoant()
+    {
+        return $this->belongsTo('App\Estado');
+    }
+
     public function addPrecio(Precio $precio)
     {
         $this->precios()->save($precio);

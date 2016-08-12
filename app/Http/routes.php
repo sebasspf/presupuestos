@@ -24,6 +24,7 @@ Route::delete('/admin/presupuestos/{presupuesto}', 'PresupuestosController@delet
 
 Route::post('/admin/presupuestos/{presupuesto}/precio', 'PreciosController@store');
 Route::get('/admin/presupuestos/{presupuesto}/enviar', 'PresupuestosController@send');
+Route::get('/admin/presupuestos/{presupuesto}/switch', 'PresupuestosController@switch');
 
 Route::get('/admin/precios/{precio}','PreciosController@show');
 Route::post('/admin/precios/{precio}','PreciosController@update');

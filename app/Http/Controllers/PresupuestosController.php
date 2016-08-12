@@ -111,6 +111,21 @@ class PresupuestosController extends Controller
         return  redirect('/admin/lista');
     }
 
+    public function switch(Presupuesto $presupuesto)
+    {
+        if($presupuesto->estado->descripcion == 'finalizado')
+        {
+            $presupuesto->estado_id = $presupuesto->estadoant_id;
+        }else{
+            $presupuesto->estadoant_id = $presupuesto->estado_id;
+            $presupuesto->estado_id = 4;
+        }
+        $presupuesto->update();
+        flash('success', 'El presupuesto se modificó correcatamente');
+        return back();
+
+    }
+
 
     protected function claveUnica()
     {
