@@ -19,9 +19,9 @@
                             <tr>
                                 <td>
                                     <h3>Su nuevo presupuesto está disponible</h3>
-                                    <p> Los precios son los siguientes:</p><br>
+                                    <p> Detalles del presupuesto:</p><br>
 
-                                    @foreach($presupuesto->precios as $precio)
+                                    @foreach($presupuesto->precios->where('estado_id',2) as $precio)
                                         
                                         <p><em>Producto:</em> {{$precio->producto}}</p>
                                         <p><em>Falla:</em> {{$precio->falla}}</p>
@@ -30,7 +30,18 @@
                                         <br>
                                     @endforeach
 
-                                    <p>Puede ver su presupuesto y aceptar / rechazar en el siguiente enlace: </p>
+                                    @if($presupuesto->precios->contains('estado_id',5))
+                                        <p>Lamentablemente, no podemos presupuestar estos servicios:</p><br>
+                                        @foreach($presupuesto->precios->where('estado_id',5) as $precio)
+                                            <p><em>Producto:</em> {{$precio->producto}}</p>
+                                            <p><em>Falla:</em> {{$precio->falla}}</p>
+                                            <p><em>Precio:</em> --- </p>
+                                            <p><em>Tiempo:</em> --- </p>
+                                            <br>
+                                        @endforeach
+                                    @endif
+
+                                    <p>Para aceptar o rechazar los presupuestos, debe ir al siguiente enlace:</p>
                                     <p><a href='http://presupuestos.app/presupuestos?clave={{$presupuesto->clave}}'>
                                         http://presupuestos.app/presupuestos?clave={{$presupuesto->clave}}
                                     </a></p>

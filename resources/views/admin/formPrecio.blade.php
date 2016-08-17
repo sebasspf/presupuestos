@@ -13,6 +13,17 @@
                             <input type="text" name="falla" class="form-control">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="posible" class="col-sm-2 control-label">¿Posible?</label>
+                        <div class="col-sm-10">
+                            <label class="checkbox-inline">
+                                <input type="radio" name="posible" value="yes" checked="checked">Sí
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="radio" name="posible" value="no">No
+                            </label>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-6">
