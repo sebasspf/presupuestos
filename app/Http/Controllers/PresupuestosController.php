@@ -61,14 +61,15 @@ class PresupuestosController extends Controller
 
     }
 
+
     public function store(Request $request)
     {
-
-        if ($request->cliente_id == 0) {
+        $cliente = Cliente::where('email',$request->email)->first();
+        if ($cliente) {
+            $cliente->actualizar($request);
+        } else {
             $this->validar_cliente($request);
             $cliente = Cliente::create(['nombre'=>$request->nombre, 'email'=>$request->email]);
-        } else {
-            $cliente = Cliente::find($request->cliente_id);
         }
 
         $presupuesto = new Presupuesto;
@@ -81,6 +82,7 @@ class PresupuestosController extends Controller
         flash('success', 'El presupuesto se agrego correctamente');
         return back();
     }
+
 
     public function send(Presupuesto $presupuesto)
     {
@@ -141,7 +143,7 @@ class PresupuestosController extends Controller
     protected function validar_cliente(Request $request)
     {
         $this->validate($request, [
-            'email' => 'email|unique:clientes',
+            'email' => 'email',
             'nombre' => 'required'
         ]);
     }

@@ -18,4 +18,12 @@ class Cliente extends Model
         $this->presupuestos()->save($presupuesto);
     }
 
+    public function actualizar($request)
+    {
+        if ($this->nombre <> $request->nombre) {
+            $this->nombre = $request->nombre;
+            $this->save();
+        }
+    }
+
 }
