@@ -1,6 +1,13 @@
 /vendor
 /node_modules
 /public/storage
+/githubpage
+
+Capfile
+/config/deploy.rb
+/config/deploy
+/log
+
 Homestead.yaml
 Homestead.json
 .env
