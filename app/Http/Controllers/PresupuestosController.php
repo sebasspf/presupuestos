@@ -109,7 +109,7 @@ class PresupuestosController extends Controller
     public function delete(Presupuesto $presupuesto)
     {
         $presupuesto->delete();
-        flash('sucess', 'El presupuesto fue eliminado');
+        flash('success', 'El presupuesto fue eliminado');
         return  redirect('/admin/lista');
     }
 

@@ -1,12 +1,18 @@
 @extends('admin.layout')
 
+@section('head')
+    <script src="/js/listpres.js"></script>
+@endsection
+
 @section('content')
 
     @include('components.header')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-8 col-md-offset-2" id="main">
+                @include('components.flash')
                 <table class="table">
+                {{ csrf_field() }}
                     <caption>Listado actual de presupuestos</caption>
                     <thead>
                         <tr>
@@ -32,7 +38,7 @@
                                 <a href="/admin/presupuestos/{{$pres->id}}" class="btn btn-default btn-sm">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
-                                <a type="button" href="" class="btn btn-default btn-sm">
+                                <a type="button" href="" class="btn btn-default btn-sm" id="btn-remove-{{$pres->id}}">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                             </td>
