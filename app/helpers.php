@@ -10,5 +10,5 @@ function crearClave($length)
 {
     $factory = new \RandomLib\Factory;
     $generator = $factory->getLowStrengthGenerator();
-    return $generator->generateString($length);
+    return $generator->generateString($length, 'abcdefghijklmnopqrstuvwxyz0123456789');
 }
