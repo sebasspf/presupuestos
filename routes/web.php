@@ -42,7 +42,7 @@ Route::post('/presupuestos', 'PreciosController@respond');
 Route::get('/api/getcliente/{email}', 'ClientesController@getJson');
 
 // Authentication Routes **************************************************************
-Route::get('/admin', 'Auth\AuthController@showLoginForm');
-Route::post('/admin', 'Auth\AuthController@login');
+Route::get('/admin', 'Auth\LoginController@showLoginForm');
+Route::post('/admin', 'Auth\LoginController@login');
 
-Route::get('/admin/logout', 'Auth\AuthController@logout');
+Route::get('/admin/logout', 'Auth\LoginController@logout');
