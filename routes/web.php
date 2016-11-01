@@ -45,4 +45,9 @@ Route::get('/api/getcliente/{email}', 'ClientesController@getJson');
 Route::get('/admin', 'Auth\LoginController@showLoginForm');
 Route::post('/admin', 'Auth\LoginController@login');
 
+Route::get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('/password/email', 'Auth\ForgotPasswordController@SendResetLinkEmail');
+Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
+
 Route::get('/admin/logout', 'Auth\LoginController@logout');
