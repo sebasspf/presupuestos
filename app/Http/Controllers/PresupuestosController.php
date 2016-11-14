@@ -8,6 +8,9 @@ use Mail;
 use App\Http\Requests;
 use App\Presupuesto;
 use App\Cliente;
+use App\DatosPresupuesto;
+use App\Estado;
+use DB;
 
 class PresupuestosController extends Controller
 {
@@ -18,6 +21,27 @@ class PresupuestosController extends Controller
         ]);
     }
 
+    public function show(Presupuesto $presupuesto)
+    {
+        $presupuesto->load('precios');
+        return view('admin.pres', ['presupuesto' => $presupuesto]);
+    }
+
+    public function delete(Presupuesto $presupuesto)
+    {
+        $presupuesto->delete();
+        flash('success', 'El presupuesto fue eliminado');
+        return  redirect('/admin/lista');
+    }
+
+    public function update(Presupuesto $presupuesto, Request $request)
+    {
+        $presupuesto->comentario = $request->comentario;
+        $presupuesto->estado_id = $request->estado;
+        $presupuesto->save();
+        flash('success', 'El presupuesto se modificó correctamente');
+        return redirect('/admin/presupuestos/'.$presupuesto->id);
+    }
 
     public function addForm()
     {
@@ -27,16 +51,10 @@ class PresupuestosController extends Controller
 
     public function list()
     {
-        $presupuestos = Presupuesto::with('cliente')
+        $presupuestos = Presupuesto::with('cliente','datosPresupuesto')
                             ->orderBy('updated_at', 'desc')
                             ->paginate(12);
         return view('admin.list', ['presupuestos' => $presupuestos]);
-    }
-
-    public function show(Presupuesto $presupuesto)
-    {
-        $presupuesto->load('precios');
-        return view('admin.pres', ['presupuesto' => $presupuesto]);
     }
 
     public function showUser(Request $request)
@@ -64,12 +82,15 @@ class PresupuestosController extends Controller
 
     public function store(Request $request)
     {
-        $cliente = Cliente::where('email',$request->email)->first();
-        if ($cliente) {
-            $cliente->actualizar($request);
-        } else {
-            $this->validar_cliente($request);
-            $cliente = Cliente::create(['nombre'=>$request->nombre, 'email'=>$request->email]);
+
+        if ($request->email !== '') {
+            $cliente = Cliente::where('email',$request->email)->first();
+            if ($cliente) {
+                $cliente->actualizar($request);
+            } else {
+                $this->validar_cliente($request);
+                $cliente = Cliente::create(['nombre'=>$request->nombre, 'email'=>$request->email]);
+            }
         }
 
         $presupuesto = new Presupuesto;
@@ -77,7 +98,13 @@ class PresupuestosController extends Controller
         $presupuesto->comentario = $request->comentario;
         $presupuesto->estado_id = 1;
 
-        $cliente->addPresupuesto($presupuesto);
+        if ($request->email !== '') {
+            $cliente->addPresupuesto($presupuesto);
+        } else {
+            $presupuesto->save();
+            $datos = DatosPresupuesto::create(['nombre'=>$request->nombre]);
+            $presupuesto->addDatos($datos);
+        }
 
         flash('success', 'El presupuesto se agrego correctamente');
         return back();
@@ -106,11 +133,14 @@ class PresupuestosController extends Controller
         return back();
     }
 
-    public function delete(Presupuesto $presupuesto)
+    public function showEdit(Presupuesto $presupuesto)
     {
-        $presupuesto->delete();
-        flash('success', 'El presupuesto fue eliminado');
-        return  redirect('/admin/lista');
+        $estados = Estado::All();
+        $presupuesto->load('cliente','datosPresupuesto');
+        return view('admin.editPres',[
+            'presupuesto' => $presupuesto,
+            'estados' => $estados
+        ]);
     }
 
     public function switch(Presupuesto $presupuesto)

@@ -22,8 +22,9 @@
                         <label for="email">Correo electrónico:</label>
                         <div class="input-group">
                             <input type="email" name="email" class="form-control" placeholder="correo@example.com"
-                            value="{{old('email')}}" required >
+                            value="{{old('email')}}" >
                             <div class="input-group-addon"><a href="#" name="veriflink">Verificar</a></div>
+                            <div class="input-group-addon"><a href="#" name="emaillink">Sin email</a></div>
                         </div>
                     </div>
                     <div name ='ntfExito' class='alert alert-success hidden' role='alert'>Cliente existente</div>

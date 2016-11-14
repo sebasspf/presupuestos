@@ -13,6 +13,11 @@ class Presupuesto extends Model
         return $this->belongsTo('App\Cliente');
     }
 
+    public function datosPresupuesto()
+    {
+        return $this->hasOne('App\DatosPresupuesto');
+    }
+
     public function precios()
     {
         return $this->hasMany('App\Precio');
@@ -31,6 +36,11 @@ class Presupuesto extends Model
     public function addPrecio(Precio $precio)
     {
         $this->precios()->save($precio);
+    }
+
+    public function addDatos(DatosPresupuesto $datos)
+    {
+        $this->datosPresupuesto()->save($datos);
     }
 
     protected static function boot()

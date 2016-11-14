@@ -1,15 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
 
 // Admin Routes *************************************************************
 
@@ -20,11 +10,13 @@ Route::post('/admin/presupuesto', 'PresupuestosController@store');
 
 Route::get('/admin/presupuestos/{presupuesto}', 'PresupuestosController@show');
 Route::delete('/admin/presupuestos/{presupuesto}', 'PresupuestosController@delete');
+Route::patch('/admin/presupuestos/{presupuesto}', 'PresupuestosController@update');
 
 
 Route::post('/admin/presupuestos/{presupuesto}/precio', 'PreciosController@store');
 Route::get('/admin/presupuestos/{presupuesto}/enviar', 'PresupuestosController@send');
 Route::get('/admin/presupuestos/{presupuesto}/switch', 'PresupuestosController@switch');
+Route::get('/admin/presupuestos/{presupuesto}/editar', 'PresupuestosController@showEdit');
 
 Route::get('/admin/precios/{precio}','PreciosController@show');
 Route::post('/admin/precios/{precio}','PreciosController@update');

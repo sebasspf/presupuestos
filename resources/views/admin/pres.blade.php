@@ -10,9 +10,15 @@
                 <h4>Detalles del presupuesto:</h4>
                 <dl class="dl-horizontal">
                     <dt>Cliente:</dt>
-                        <dd>{{$presupuesto->cliente->nombre}}</dd>
+                        <dd>{{$presupuesto->cliente == null ?
+                            $presupuesto->datosPresupuesto->nombre : $presupuesto->cliente->nombre}}
+                        </dd>
                     <dt>Email:</dt>
-                        <dd>{{$presupuesto->cliente->email}}</dd>
+                        @if ($presupuesto->cliente)
+                            <dd>{{$presupuesto->cliente->email}}</dd>
+                        @else
+                            <dd><strong>Presupuesto sin correo</strong></dd>
+                        @endif
                     <dt>Descripicón:</dt>
                         <dd>{{$presupuesto->comentario}}</dd>
                     <dt>Fecha de creación:</dt>
@@ -22,6 +28,8 @@
                             <span class="label" style="background-color:{{$presupuesto->estado->color}}">
                             {{ucfirst($presupuesto->estado->descripcion)}}</span>
                         </dd>
+                    <dt>Modificar:</dt>
+                        <dd><a href="/admin/presupuestos/{{$presupuesto->id}}/editar">Cambiar estado / detalles</a></dd>
                 </dl>
             </div>
         </div>
@@ -74,7 +82,8 @@
             <div class="col-md-8 col-md-offset-2">
                 <h5 class="subtitulo">Acciones posibles</h5>
                 <div class="row">
-                    @if(!$presupuesto->precios->isEmpty() && $presupuesto->estado->descripcion == "nuevo")
+                    @if(!$presupuesto->precios->isEmpty() && isset($presupuesto->cliente)
+                    && $presupuesto->estado->descripcion !== "finalizado")
                         <div class="col-md-2">
                             <a href="/admin/presupuestos/{{$presupuesto->id}}/enviar" class="btn btn-primary btn-block">
                                 Enviar
