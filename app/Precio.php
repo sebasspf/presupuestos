@@ -6,6 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Precio extends Model
 {
+    /*
+    * id int(10)
+    * presupuesto_id int(10)
+    * producto varchar(255)
+    * falla varchar(255)
+    * precio double(15,2)
+    * comentario text
+    * tiemp int(11)
+    * created_at tiemstamp
+    * updated_at timestamp
+    * estado_id int(11)
+    */
     protected $fillable = ['producto', 'falla', 'precio', 'tiempo', 'comentario'];
     
     public function presupuesto()

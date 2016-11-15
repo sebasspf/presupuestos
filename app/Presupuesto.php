@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Presupuesto extends Model
 {
+    /*
+    * id int(10)
+    * comentario text
+    * clave varchar(255)
+    * cliente_id int(11)
+    * estado_id int(11)
+    * estadoant_id int(11)
+    * created_at tiemstamp
+    * updated_at timestamp
+    */
     protected $fillable =  ['comentario','clave'];
 
     public function cliente()
