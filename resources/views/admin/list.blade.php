@@ -35,7 +35,7 @@
                             <td>{{ str_limit($pres->comentario, 43) }}</td>
                             <td><span class="label" style="background-color:{{$pres->estado->color}}">
                                     {{ ucfirst($pres->estado->descripcion)}}
-                                </span></td>
+                                </span></td> 
                             <td>      
                                 <a href="/admin/presupuestos/{{$pres->id}}" class="btn btn-default btn-sm">
                                     <span class="glyphicon glyphicon-pencil"></span>

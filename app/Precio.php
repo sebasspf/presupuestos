@@ -13,7 +13,7 @@ class Precio extends Model
     * falla varchar(255)
     * precio double(15,2)
     * comentario text
-    * tiemp int(11)
+    * tiempo int(11)
     * created_at tiemstamp
     * updated_at timestamp
     * estado_id int(11)
