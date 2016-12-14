@@ -13,7 +13,7 @@ class CreateDatosPresupuesto extends Migration
      */
     public function up()
     {
-        Schema::create('datos_presupuesto', function (Blueprint $table) {
+        Schema::create('datos_presupuestos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
             $table->string('telefono');
@@ -28,6 +28,6 @@ class CreateDatosPresupuesto extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('datos_presupuesto');
+        Schema::dropIfExists('datos_presupuestos');
     }
 }

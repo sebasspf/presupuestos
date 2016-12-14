@@ -13,7 +13,7 @@ class AddTimestampsDatosPresupuestos extends Migration
      */
     public function up()
     {
-        Schema::table('datos_presupuesto', function (Blueprint $table) {
+        Schema::table('datos_presupuestos', function (Blueprint $table) {
             $table->timestamps();
         });
     }
@@ -25,7 +25,7 @@ class AddTimestampsDatosPresupuestos extends Migration
      */
     public function down()
     {
-        Schema::table('datos_presupuesto', function (Blueprint $table) {
+        Schema::table('datos_presupuestos', function (Blueprint $table) {
             $table->dropColumn('created_at');
             $table->dropColumn('updated_at');
         });
