@@ -9,7 +9,7 @@
     @include('components.header')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2" id="main">
+            <div class="col-md-10 col-md-offset-1" id="main">
                 @include('components.flash')
                 <table class="table listado">
                 {{ csrf_field() }}
