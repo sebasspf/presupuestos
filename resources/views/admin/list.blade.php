@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2" id="main">
                 @include('components.flash')
-                <table class="table">
+                <table class="table listado">
                 {{ csrf_field() }}
                     <caption>Listado actual de presupuestos</caption>
                     <thead>

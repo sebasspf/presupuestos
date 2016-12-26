@@ -5,3 +5,7 @@
     color: #777;
     text-align: left;
 }
+
+.listado .btn-sm{
+    display:inline;
+}
