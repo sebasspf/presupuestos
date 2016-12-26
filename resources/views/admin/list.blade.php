@@ -10,6 +10,24 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1" id="main">
+                <div class="row">
+                    <div class="col-md-12" id="filter-bar">
+                        <form class="form-inline" method="GET" name="busqueda" action="/admin/lista">
+                            <div class="form-group">
+                                <label for="tipopres">Filtrar por: </label>
+                                <select class="form-control" id="tipopres" name="tipopres">
+                                    <option value=0> - </option>
+                                @foreach($estados as $estado)
+                                    <option value="{{$estado->id}}" @if($estado->id == $tipopres) selected @endif>
+                                        {{$estado->descripcion}}
+                                    </option>
+                                @endforeach
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-default">Buscar</button>
+                        </form>
+                    </div>
+                </div>
                 @include('components.flash')
                 <table class="table listado">
                 {{ csrf_field() }}

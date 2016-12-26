@@ -49,12 +49,22 @@ class PresupuestosController extends Controller
     }
 
 
-    public function list()
+    public function list(Request $request)
     {
-        $presupuestos = Presupuesto::with('cliente','datosPresupuesto')
-                            ->orderBy('updated_at', 'desc')
-                            ->paginate(12);
-        return view('admin.list', ['presupuestos' => $presupuestos]);
+        $estados = Estado::all();
+
+        $query = Presupuesto::with('cliente','datosPresupuesto')
+                 ->orderBy('updated_at', 'desc');
+        if (isset($request->tipopres) && $request->tipopres <> '0'){
+            $query->where('estado_id', $request->tipopres);
+        }
+        $presupuestos = $query->paginate(12);
+
+        return view('admin.list', [
+            'presupuestos' => $presupuestos,
+            'estados' => $estados,
+            'tipopres' => $request->tipopres
+        ]);
     }
 
     public function showUser(Request $request)
