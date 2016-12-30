@@ -13,6 +13,6 @@ class ClienteTest extends TestCase
 
         $this->actingAs($admin)
              ->json('GET', '/api/getcliente/seperezf@gmail.com')
-             ->seeJson(['nombre' =>'Sebastián Perez']);
+             ->seeJson(['nombre' =>'Sebastián Perez Ferretti']);
     }
 }
