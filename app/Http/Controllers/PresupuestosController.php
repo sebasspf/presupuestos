@@ -93,7 +93,7 @@ class PresupuestosController extends Controller
     public function store(Request $request)
     {
 
-        if ($request->email !== '') {
+        if ($request->email !== null) {
             $cliente = Cliente::where('email',$request->email)->first();
             if ($cliente) {
                 $cliente->actualizar($request);
@@ -108,7 +108,7 @@ class PresupuestosController extends Controller
         $presupuesto->comentario = $request->comentario;
         $presupuesto->estado_id = 1;
 
-        if ($request->email !== '') {
+        if ($request->email !== null) {
             $cliente->addPresupuesto($presupuesto);
         } else {
             $presupuesto->save();
