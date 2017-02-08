@@ -1,16 +1,13 @@
 <?php
 
-use Illuminate\Contracts\Console\Kernel;
-use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
-
-abstract class BrowserKitTest extends BaseTestCase
+abstract class BrowserKitTest extends Laravel\BrowserKitTesting\TestCase
 {
     /**
-     * The base URL of the application.
+     * The base URL to use while testing the application.
      *
      * @var string
      */
-    public $baseUrl = 'http://localhost';
+    protected $baseUrl = 'http://localhost';
 
     /**
      * Creates the application.
@@ -21,7 +18,7 @@ abstract class BrowserKitTest extends BaseTestCase
     {
         $app = require __DIR__.'/../bootstrap/app.php';
 
-        $app->make(Kernel::class)->bootstrap();
+        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
     }
