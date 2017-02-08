@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Mail;
+use App\Mail\Nuevo;
 use App\Http\Requests;
 use App\Presupuesto;
 use App\Cliente;
@@ -36,11 +37,37 @@ class PresupuestosController extends Controller
 
     public function update(Presupuesto $presupuesto, Request $request)
     {
-        $presupuesto->comentario = $request->comentario;
-        $presupuesto->estado_id = $request->estado;
-        $presupuesto->save();
+        $presupuesto->update(request(['comentario', 'estado_id']));
         flash('success', 'El presupuesto se modificó correctamente');
         return redirect('/admin/presupuestos/'.$presupuesto->id);
+    }
+
+    public function store(Request $request)
+    {
+        $presupuesto = new Presupuesto([
+            'clave' => Presupuesto::crearClave(),
+            'comentario' => $request->comentario
+        ]);
+
+        // En caso de que el presupuesto tenga un cliente
+        if ($request->email) {
+            $this->validar_cliente($request);
+            if ($cliente = Cliente::where('email',$request->email)->first()) {
+                $cliente->actualizar($request);
+            } else {
+                $cliente = Cliente::create(request(['nombre', 'email']));
+            }
+            $cliente->addPresupuesto($presupuesto);
+
+        } else {
+
+        // Si el presupuesto no tiene cliente
+            $presupuesto->save();
+            $presupuesto->addDatos(new DatosPresupuesto(request(['nombre'])));
+        }
+
+        flash('success', 'El presupuesto se agrego correctamente');
+        return back();
     }
 
     public function addForm()
@@ -48,17 +75,14 @@ class PresupuestosController extends Controller
         return view('admin.addForm');
     }
 
-
     public function list(Request $request)
     {
         $estados = Estado::all();
 
-        $query = Presupuesto::with('cliente','datosPresupuesto')
-                 ->orderBy('updated_at', 'desc');
-        if (isset($request->tipopres) && $request->tipopres <> '0'){
-            $query->where('estado_id', $request->tipopres);
-        }
-        $presupuestos = $query->paginate(12);
+        $presupuestos = Presupuesto::latest()
+            ->with('cliente', 'datosPresupuesto')
+            ->filter(request(['tipopres']))
+            ->paginate(12);
 
         return view('admin.list', [
             'presupuestos' => $presupuestos,
@@ -67,6 +91,7 @@ class PresupuestosController extends Controller
         ]);
     }
 
+    // Muestro el presupuesto al usuario, fuera del admin
     public function showUser(Request $request)
     {
 
@@ -90,37 +115,6 @@ class PresupuestosController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-
-        if ($request->email !== null) {
-            $cliente = Cliente::where('email',$request->email)->first();
-            if ($cliente) {
-                $cliente->actualizar($request);
-            } else {
-                $this->validar_cliente($request);
-                $cliente = Cliente::create(['nombre'=>$request->nombre, 'email'=>$request->email]);
-            }
-        }
-
-        $presupuesto = new Presupuesto;
-        $presupuesto->clave = $this->claveUnica();
-        $presupuesto->comentario = $request->comentario;
-        $presupuesto->estado_id = 1;
-
-        if ($request->email !== null) {
-            $cliente->addPresupuesto($presupuesto);
-        } else {
-            $presupuesto->save();
-            $datos = DatosPresupuesto::create(['nombre'=>$request->nombre]);
-            $presupuesto->addDatos($datos);
-        }
-
-        flash('success', 'El presupuesto se agrego correctamente');
-        return back();
-    }
-
-
     public function send(Presupuesto $presupuesto)
     {
         $presupuesto->load('precios');
@@ -130,14 +124,9 @@ class PresupuestosController extends Controller
             return back();
         }
 
-        Mail::send('emails.sendPres', ['presupuesto'=>$presupuesto], function ($m) use ($presupuesto) {
-            $m->from('info@velpres.com', 'Sistema Velpres');
-            $m->to($presupuesto->cliente->email,$presupuesto->cliente->nombre)
-                ->subject('Nuevo presupuesto de Velpres');
-        });
+        Mail::to($presupuesto->cliente->email)->send(new Nuevo($presupuesto));
 
-        $presupuesto->estado_id = 2;
-        $presupuesto->update();
+        $presupuesto->update(['estado_id' => 2]);
 
         flash('success', 'El email se envió correctamente');
         return back();
@@ -153,45 +142,25 @@ class PresupuestosController extends Controller
         ]);
     }
 
+    // Finaliza o reanuda el presupuesto
     public function switch(Presupuesto $presupuesto)
     {
-        if($presupuesto->estado->descripcion == 'finalizado')
+        if ($presupuesto->estado->descripcion == 'finalizado')
         {
-            $presupuesto->estado_id = $presupuesto->estadoant_id;
-        }else{
-            $presupuesto->estadoant_id = $presupuesto->estado_id;
-            $presupuesto->estado_id = 4;
+            $presupuesto->reanudar();
+        } else {
+            $presupuesto->finalizar();
         }
-        $presupuesto->update();
+
         flash('success', 'El presupuesto se modificó correcatamente');
         return back();
-
     }
-
-
-    protected function claveUnica()
-    {
-        $repetido = true;
-        while ($repetido) {
-            $clave = crearClave(10);
-            Presupuesto::where('clave',$clave)->first() ?: $repetido = false;
-        }
-        return $clave;
-    }
-
 
     protected function validar_cliente(Request $request)
     {
         $this->validate($request, [
             'email' => 'email',
             'nombre' => 'required'
-        ]);
-    }
-
-    protected function validar_clave(Request $request)
-    {
-        $this->validate($request, [
-            'clave' => 'required|alpha_num|size:10'
         ]);
     }
 

@@ -17,10 +17,10 @@
                         <label for="posible" class="col-sm-2 control-label">¿Posible?</label>
                         <div class="col-sm-10">
                             <label class="checkbox-inline">
-                                <input type="radio" name="posible" value="yes" checked="checked">Sí
+                                <input type="radio" name="posible" value="1" checked="checked">Sí
                             </label>
                             <label class="checkbox-inline">
-                                <input type="radio" name="posible" value="no">No
+                                <input type="radio" name="posible" value="0">No
                             </label>
                         </div>
                     </div>

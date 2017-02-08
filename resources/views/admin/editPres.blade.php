@@ -16,7 +16,7 @@
                     </div>
                     <div class="form-group">
                         <label for="estado">Estado:</label>
-                        <select name="estado" class="form-control">
+                        <select name="estado_id" class="form-control">
                             @foreach($estados as $estado)
                                 <option value="{{$estado->id}}" {{$presupuesto->estado_id == $estado->id ? 'selected' : ''}}>
                                 {{ucfirst($estado->descripcion)}}

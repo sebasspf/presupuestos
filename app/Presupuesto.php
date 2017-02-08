@@ -16,7 +16,7 @@ class Presupuesto extends Model
     * created_at tiemstamp
     * updated_at timestamp
     */
-    protected $fillable =  ['comentario','clave'];
+    protected $fillable =  ['comentario','clave','estado_id', 'estadoant_id'];
 
     public function cliente()
     {
@@ -51,6 +51,33 @@ class Presupuesto extends Model
     public function addDatos(DatosPresupuesto $datos)
     {
         $this->datosPresupuesto()->save($datos);
+    }
+
+    public function scopeFilter($query, $filters)
+    {
+        if ($tipopres = $filters['tipopres']) {
+            $query->where('estado_id', request('tipopres'));
+        }
+    }
+
+    public static function crearClave()
+    {
+        $repetido = true;
+        while ($repetido) {
+            $clave = crearClave(10);
+            static::where('clave',$clave)->first() ?: $repetido = false;
+        }
+        return $clave;
+    }
+
+    public function finalizar()
+    {
+        $this->update(['estadoant_id' => $this->estado_id, 'estado_id' => 4]);
+    }
+
+    public function reanudar()
+    {
+        $this->update(['estado_id' => $this->estadoant_id]);
     }
 
     protected static function boot()

@@ -23,13 +23,9 @@ class PreciosController extends Controller
     {
         $this->validar_precio($request);
 
-        $precio = new Precio;
-        $precio->producto = $request->producto;
-        $precio->falla = $request->falla;
-        $precio->precio = $request->precio;
-        $precio->tiempo = $request->tiempo;
-        $precio->estado_id = $request->posible == "yes" ? 2 : 5;
-
+        $precio = new Precio(request(['producto', 'falla', 'precio', 'tiempo']));
+        $precio->estado_id = $request->posible ? 2 : 5;
+        
         $presupuesto->addPrecio($precio);
 
         flash('success', 'El precio se agregó corectamente');
@@ -46,8 +42,7 @@ class PreciosController extends Controller
             $precio->save();
         }
 
-        $presupuesto->estado_id = 3;
-        $presupuesto->save();
+        $presupuesto->update(['estado_id' => 3]);
 
         flash('success', 'Los presupuestos se aceptaron / rechazaron correctamente');
 
@@ -65,21 +60,12 @@ class PreciosController extends Controller
 
     public function update(Request $request, Precio $precio)
     {
-        $this->validate($request,[
-            'estado' => 'exists:estados_precio,id'
-        ]);
-
-        $cambioEstado = $precio->estado_id <> $request->estado ? true : false;
-
-        $precio->estado_id = $request->estado;
-        $precio->update();
-
-        if($cambioEstado){
+        if ($precio->estado_id <> $request->estado) {
+            $precio->update(['estado_id' => $request->estado]);
             Event::fire(new PrecioCambiaEstado($precio));
+            flash('success', 'El precio se actualizó correctamente.');
         }
-
-        flash('success', 'El precio se actualizó correctamente.');
-        return back(); 
+        return redirect('/admin/presupuestos/'.$precio->presupuesto->id); 
     }
 
     protected function validar_precio(Request $request)

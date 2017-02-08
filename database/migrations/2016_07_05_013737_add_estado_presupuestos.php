@@ -14,7 +14,7 @@ class AddEstadoPresupuestos extends Migration
     {
         Schema::table('presupuestos', function (Blueprint $table) {
 
-            $table->integer('estado_id');
+            $table->integer('estado_id')->default(1);
 
         });
     }

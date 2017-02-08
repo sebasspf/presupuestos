@@ -18,7 +18,7 @@ class Precio extends Model
     * updated_at timestamp
     * estado_id int(11)
     */
-    protected $fillable = ['producto', 'falla', 'precio', 'tiempo', 'comentario'];
+    protected $fillable = ['producto', 'falla', 'precio', 'tiempo', 'comentario', 'estado_id'];
     
     public function presupuesto()
     {
