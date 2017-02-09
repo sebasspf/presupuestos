@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class PresupuestoTest extends BrowserKitTest
+class PresupuestoTest1 extends BrowserKitTest
 {
     use DatabaseTransactions;
 
@@ -23,7 +23,7 @@ class PresupuestoTest extends BrowserKitTest
         $sentence = $faker->sentence();
 
         $this->actingAs($admin)
-             ->visit('/admin/presupuesto')
+             ->visit('http://presupuestos.app/admin/presupuesto')
              ->type($email,'email')
              ->type($name,'nombre')
              ->type($sentence, 'comentario')

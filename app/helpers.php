@@ -8,7 +8,9 @@ function flash($level, $message)
 
 function crearClave($length)
 {
-    $factory = new \RandomLib\Factory;
+    /*$factory = new \RandomLib\Factory;
     $generator = $factory->getLowStrengthGenerator();
-    return $generator->generateString($length, 'abcdefghijklmnopqrstuvwxyz0123456789');
+    return $generator->generateString($length, 'abcdefghijklmnopqrstuvwxyz0123456789');*/
+    $bytes = random_bytes(5);
+    return bin2hex($bytes);
 }
